@@ -1,4 +1,4 @@
-package service;
+package com.userfront.service;
 
 public interface UserService {
 
