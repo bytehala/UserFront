@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.userfront.service.impl.UserSecurityService;
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -22,6 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
 	}
+	
+	@Autowired
+	UserSecurityService userSecurityService;
 	
 	private static final String[] PUBLIC_MATCHERS = {
 			"/webjars/**",
@@ -52,8 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.rememberMe();
 	}
 	
-	public void configureGlobal(AuthenticationManagerBuilder auth) {
-		// auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
 
 	}
 
